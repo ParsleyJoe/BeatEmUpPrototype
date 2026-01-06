@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "imgui.h"
 #include <animation.hpp>
 #include <player.hpp>
 #include <iostream>
@@ -10,27 +11,29 @@ Player::Player()
 	state(PlayerState::MOVING)
 {
 	playerIdleText = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/player.png");
-	attackAnim = {0, 2, 0, 0.2f, 0.5f, REPEATING};
+	playerAttackSheet = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/playerAttack.png");
+	attackAnim = {1, 3, 0, 0.2f, 0.5f, ONESHOT};
 }
 
 void Player::Update(float dt)
 {
-	if (IsKeyDown(KEY_SPACE) && !attacking)
-	{
-		state = ATTACKING;
-	}
-
         switch(state)
 	{
-	case MOVING:
+	case PlayerState::MOVING:
+		if (IsKeyPressed(KEY_SPACE) && !attacking)
+		{
+			state = PlayerState::ATTACKING;
+			break;
+		}
 		Move(dt);
 		break;
-	case ATTACKING:
+	case PlayerState::ATTACKING:
 		Attack(dt);
 		break;
-	case HIT:
+	case PlayerState::HIT:
 		break;
 	}
+
 }
 
 void Player::Draw() const
@@ -42,11 +45,14 @@ void Player::Draw() const
 	else
 	{
 		AnimationUpdate((Animation*)&attackAnim);
+		Rectangle frame = AnimationFrame((Animation*)&attackAnim, attackAnim.last);
+		DrawTexturePro(playerAttackSheet, frame, hitBox, {0}, 0.0f, WHITE);
 	}
 	
 	// Debug Draw Player hitbox
 	DrawRectangleLines(hitBox.x, hitBox.y, hitBox.width, hitBox.height, BLUE);
-
+	ImGui::SliderFloat("Player attackFor", (float*)&attackFor, 0.0f, 2.0f);
+	ImGui::Text("Player Attacking: %s", attacking ? "true" : "false");
 
 	DrawHealthBar();
 }
@@ -85,7 +91,7 @@ void Player::Move(float dt)
 	{
 		pos.y += speed * dt;
 	}
-	hitBox = {pos.x, pos.y, 30, 30};
+	hitBox = {pos.x, pos.y, hitBox.width, hitBox.height};
 }
 
 void Player::Attack(float dt)
@@ -94,14 +100,15 @@ void Player::Attack(float dt)
 	{
 		if (attackingTimer < attackFor)
 		{
-			// [DEBUG] Attack Point Rectangle
 			attackingTimer += dt;
+			// [DEBUG] Attack Point Rectangle
 			DrawRectangle(attackBox.x, attackBox.y, 5, 5, DARKBROWN);
 		}
 		else
 		{
 			attacking = false;
-			state = MOVING;
+			attackAnim.cur = 0.0f;
+			state = PlayerState::MOVING;
 			attackingTimer = 0.0f;
 			lastAttacked = GetTime();
 		}

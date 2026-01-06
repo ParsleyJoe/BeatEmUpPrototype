@@ -19,4 +19,4 @@ struct Animation {
 };
 
 void AnimationUpdate(Animation *self);
-Rectangle AnimationFrame(Animation *self); 
+Rectangle AnimationFrame(Animation *self, int numFramesPerRow);

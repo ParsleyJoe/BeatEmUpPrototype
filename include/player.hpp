@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include <animation.hpp>
 
-enum PlayerState {
+enum class PlayerState {
 	MOVING,
 	HIT,
 	ATTACKING
@@ -26,6 +26,7 @@ private:
 	float attackFor = 0.3f;
 	
 	Texture2D playerIdleText;
+	Texture2D playerAttackSheet;
 	Animation attackAnim;
 
 	PlayerState state;

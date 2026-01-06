@@ -4,6 +4,8 @@
 #include <enemy.hpp>
 #include <player.hpp>
 
+
+// TODO: move collisions out of main
 void CheckCollisions(Enemy &enemy, Player &player);
 
 int main(void)
@@ -24,8 +26,8 @@ int main(void)
 
 		enemy.Update(dt, player);
 		player.Update(dt);
-		// END UPDATE
 		// ----------
+		// END UPDATE
 
 		// DRAWING FUNCTIONS 
 		// -----------------
@@ -41,8 +43,8 @@ int main(void)
 
 		EndDrawing();
 
-		// END DRAWING
 		// -----------
+		// END DRAWING
 	}
 
 	game.Shutdown();
