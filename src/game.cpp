@@ -6,15 +6,31 @@
 #include <rlImGui.h>
 #include <imguiThemes.h>
 
+void Game::Start()
+{
+	player.LoadTextures();
+}
+
+void Game::Update()
+{
+	float dt = GetFrameTime();
+	enemy.Update(dt, player);
+	player.Update(dt);
+}
+
+void Game::Draw()
+{
+	ClearBackground(RAYWHITE);
+
+	enemy.Draw();
+	player.Draw();
+}
+
 void Game::Init()
 {
 	SetConfigFlags( FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
 	InitWindow(800, 450, "raylib [core] example - basic window");
 
-	
-
-
-#pragma region imgui
 	rlImGuiSetup(true);
 
 	//you can use whatever imgui theme you like!
@@ -37,10 +53,6 @@ void Game::Init()
 		style.Colors[ImGuiCol_WindowBg].w = 0.5f;
 		//style.Colors[ImGuiCol_DockingEmptyBg].w = 0.f;
 	}
-
-#pragma endregion
-
-
 }
 
 

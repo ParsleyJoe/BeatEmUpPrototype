@@ -10,9 +10,13 @@ Player::Player()
 	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}), hitBox({300, 300, 120, 120}),
 	state(PlayerState::MOVING)
 {
+	attackAnim = {1, 3, 0, 0.07f, 0.0f, ONESHOT};
+}
+
+void Player::LoadTextures()
+{
 	playerIdleText = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/player.png");
 	playerAttackSheet = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/playerAttack.png");
-	attackAnim = {1, 3, 0, 0.2f, 0.5f, ONESHOT};
 }
 
 void Player::Update(float dt)

@@ -23,7 +23,7 @@ private:
 	float lastDamageTime = 0.0f;
 	
 	float attackingTimer = 0.0f;
-	float attackFor = 0.56f;
+	float attackFor = 0.25f;
 	
 	Texture2D playerIdleText;
 	Texture2D playerAttackSheet;
@@ -36,6 +36,8 @@ public:
 	Rectangle hitBox; // TODO:  ADD HITBOX
 
 	Player();
+	void LoadTextures();
+
 	void Draw() const;
 	void Update(float dt);
 
