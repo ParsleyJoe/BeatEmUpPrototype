@@ -6,6 +6,8 @@
 #include <rlImGui.h>
 #include <imguiThemes.h>
 
+#include <collission.hpp>
+
 void Game::Start()
 {
 	player.LoadTextures();
@@ -16,6 +18,9 @@ void Game::Update()
 	float dt = GetFrameTime();
 	enemy.Update(dt, player);
 	player.Update(dt);
+
+	// Collisions
+	CheckCollisions(enemy, player);
 }
 
 void Game::Draw()

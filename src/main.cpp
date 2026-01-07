@@ -43,12 +43,3 @@ int main(void)
 	return 0;
 }
 
-void CheckCollisions(Enemy &enemy, Player &player)
-{
-	// Check Collisions
-	if (CheckCollisionRecs(enemy.attackBox, player.hitBox))
-	{
-		// enemy damage player
-		player.TakeDamage();
-	}
-}
