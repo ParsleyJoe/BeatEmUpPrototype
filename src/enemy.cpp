@@ -8,6 +8,9 @@
 // Draw the enemy
 void Enemy::Draw() 
 {
+	// TODO: Add texture drawing and loading
+	// DrawTexture(idleTexture, pos.x, pos.y, WHITE);
+	
 	DrawRectangle(pos.x, pos.y, 30, 30, RED);
 	
 	ImGui::Checkbox("Activate Enemy", &active);
@@ -33,8 +36,6 @@ void Enemy::Update(float dt, Player& player)
 		if (!attacking && dist > 30.0f) { state = EnemyState::MOVING; }
 		break;
 	}
-	std::cout << "Enemy State " << static_cast<int>(state) << std::endl;
-	std::cout << "Timer " << attackingTimer << std::endl;
 
 	// -- DEBUG DRAW ---
 	if (attacking)

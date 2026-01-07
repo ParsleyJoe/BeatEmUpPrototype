@@ -17,14 +17,14 @@ Player::Player()
 
 void Player::Update(float dt)
 {
-        switch(state)
+        if (IsKeyPressed(KEY_SPACE) && !attacking)
+	{
+		state = PlayerState::ATTACKING;
+	}
+
+	switch(state)
 	{
 	case PlayerState::MOVING:
-		if (IsKeyPressed(KEY_SPACE) && !attacking)
-		{
-			state = PlayerState::ATTACKING;
-			break;
-		}
 		Move(dt);
 		break;
 	case PlayerState::ATTACKING:
@@ -53,6 +53,11 @@ void Player::Draw() const
 	DrawRectangleLines(hitBox.x, hitBox.y, hitBox.width, hitBox.height, BLUE);
 	ImGui::SliderFloat("Player attackFor", (float*)&attackFor, 0.0f, 2.0f);
 	ImGui::Text("Player Attacking: %s", attacking ? "true" : "false");
+
+	bool space = IsKeyPressed(KEY_SPACE);
+	ImGui::Text("Space Bar pressed: %s", space ? "true" : "false");
+	ImGui::SliderFloat("Attack Anim speed: ", (float*)&attackAnim.speed, 0.0f, 2.0f);
+	ImGui::SliderFloat("Attack Anim duration: ", (float*)&attackAnim.durationLeft, 0.0f, 2.0f);
 
 	DrawHealthBar();
 }
@@ -107,15 +112,13 @@ void Player::Attack(float dt)
 		else
 		{
 			attacking = false;
-			attackAnim.cur = 0.0f;
+			attackAnim.cur = 0;
 			state = PlayerState::MOVING;
 			attackingTimer = 0.0f;
 			lastAttacked = GetTime();
 		}
 	}
-
-
-	if (!attacking && (GetTime() - lastAttacked) > attackCooldown) 
+	else if (!attacking)// NOTE: GETTING RID OF COOLDOWN FIXED LAGGY ATTACK && (GetTime() - lastAttacked) > attackCooldown) 
 	{ 
 		attacking = true;
 		attackBox = { pos.x + 30 + attackOffset, pos.y + 15 , attackBox.width, attackBox.height};

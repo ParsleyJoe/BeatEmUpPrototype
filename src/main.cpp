@@ -8,7 +8,7 @@
 // TODO: move collisions out of main
 void CheckCollisions(Enemy &enemy, Player &player);
 
-int main(void)
+int main()
 {
 	Game game;
 	game.Init();

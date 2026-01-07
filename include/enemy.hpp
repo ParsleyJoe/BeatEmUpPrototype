@@ -17,6 +17,8 @@ private:
 	int health = 50;
 	EnemyState state = EnemyState::MOVING;
 	bool active = true;
+
+	Texture2D idleTexture;
 public:
 	Vector2 pos = { 500, 300 };
 

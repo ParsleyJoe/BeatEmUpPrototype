@@ -23,7 +23,7 @@ private:
 	float lastDamageTime = 0.0f;
 	
 	float attackingTimer = 0.0f;
-	float attackFor = 0.3f;
+	float attackFor = 0.56f;
 	
 	Texture2D playerIdleText;
 	Texture2D playerAttackSheet;
