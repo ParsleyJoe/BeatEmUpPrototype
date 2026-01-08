@@ -3,7 +3,8 @@
 ## Player
  - [X] Fix player attacking 
  - [X] fix animation
- - [ ] Fix attacking BUG(Delay after pressing key, REAL BUGGY SHIT BRO)
+ - [X] Fix attacking BUG(Delay after pressing key, REAL BUGGY SHIT BRO)[DUCT TAPY FIX FOR NOW]
 
 ## Enemy 
- - [ ] Add sprites
+ - [X] Add sprites
+ - [ ] Attack less often

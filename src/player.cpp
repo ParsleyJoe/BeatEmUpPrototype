@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "imgui.h"
+#include "util.hpp"
 #include <animation.hpp>
 #include <player.hpp>
 #include <iostream>
@@ -42,14 +43,18 @@ void Player::Update(float dt)
 
 void Player::Draw() const
 {
+	int dirInt = (dir == Direction::LEFT) ? -1 : 1;
 	if (!attacking)
 	{
-		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
+		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width * dirInt, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
 	}
 	else
 	{
 		AnimationUpdate((Animation*)&attackAnim);
 		Rectangle frame = AnimationFrame((Animation*)&attackAnim, attackAnim.last);
+
+		// Base it on direction
+		frame.width *= dirInt;
 		DrawTexturePro(playerAttackSheet, frame, hitBox, {0}, 0.0f, WHITE);
 	}
 	
@@ -87,10 +92,12 @@ void Player::Move(float dt)
 	if (IsKeyDown(KEY_LEFT))
 	{
 		pos.x -= speed * dt;
+		dir = Direction::LEFT;
 	}
 	if (IsKeyDown(KEY_RIGHT))
 	{
 		pos.x += speed * dt;
+		dir = Direction::RIGHT;
 	}
 	if (IsKeyDown(KEY_UP))
 	{

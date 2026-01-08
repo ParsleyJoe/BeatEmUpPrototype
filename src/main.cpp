@@ -15,7 +15,6 @@ int main(void)
 		// Updating Entities
 		// -----------------
 		game.Update();
-
 		// ----------
 		// END UPDATE
 

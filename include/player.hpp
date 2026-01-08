@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <animation.hpp>
+#include <util.hpp>
 
 enum class PlayerState {
 	MOVING,
@@ -30,6 +31,7 @@ private:
 	Animation attackAnim;
 
 	PlayerState state;
+	Direction dir;
 public:
 	bool attacking = false;
 	Rectangle attackBox;

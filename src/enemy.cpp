@@ -31,7 +31,7 @@ void Enemy::Update(float dt, Player& player)
 	{
 	case EnemyState::MOVING:
 		Move(dt, player);
-		if (dist < 30.0f) { state = EnemyState::ATTACK; }
+		if (dist < 60.0f) { state = EnemyState::ATTACK; }
 		break;
 	case EnemyState::HIT:
 		DamageRecoil();
