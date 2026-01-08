@@ -11,6 +11,7 @@
 void Game::Start()
 {
 	player.LoadTextures();
+	enemy.LoadTextures();
 }
 
 void Game::Update()

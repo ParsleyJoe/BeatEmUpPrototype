@@ -22,6 +22,7 @@ private:
 public:
 	Vector2 pos = { 500, 300 };
 
+	Rectangle hitBox = {0, 0, 30.0f, 30.0f};
 	Rectangle attackBox = {-100, -100, 10.0f, 10.0f};
 	float attackOffset = 30.0f;
 	bool attacking = false;
@@ -31,6 +32,8 @@ public:
 	float attackingTimer = 0.0f;
 
 	int speed = 150;
+
+	void LoadTextures();
 
 	void Draw();
 	void Update(float dt,Player& player);

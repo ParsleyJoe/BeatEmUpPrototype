@@ -1,17 +1,22 @@
+#include "raylib.h"
 #include <enemy.hpp>
 #include <player.hpp>
 #include <util.hpp>
 #include <util.hpp>
-#include <iostream>
 #include <imgui.h>
+
+void Enemy::LoadTextures()
+{
+	idleTexture = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/enemy.png");
+}
 
 // Draw the enemy
 void Enemy::Draw() 
 {
 	// TODO: Add texture drawing and loading
-	// DrawTexture(idleTexture, pos.x, pos.y, WHITE);
+	DrawTexturePro(idleTexture, {0.0f, 0.0f, static_cast<float>(idleTexture.width), static_cast<float>(idleTexture.height)}, hitBox, {0}, 0.0f, WHITE);
 	
-	DrawRectangle(pos.x, pos.y, 30, 30, RED);
+	DrawRectangleLines(hitBox.x, hitBox.y, 30, 30, RED);
 	
 	ImGui::Checkbox("Activate Enemy", &active);
 }
@@ -21,7 +26,7 @@ void Enemy::Update(float dt, Player& player)
 {
 	if (!active) { return; }
 
-	float dist = Vector2Distance({ player.GetPosition() }, { pos });
+	float dist = Vector2Distance({ player.GetPosition() }, { hitBox.x, hitBox.y });
 	switch (state)
 	{
 	case EnemyState::MOVING:
@@ -50,13 +55,13 @@ void Enemy::Update(float dt, Player& player)
 void Enemy::Move(float dt, Player& player)
 {
 	Vector2 playerPos = player.GetPosition();
-	dir = ((playerPos.x < pos.x)) ? Direction::LEFT : Direction::RIGHT;
+	dir = ((playerPos.x < hitBox.x)) ? Direction::LEFT : Direction::RIGHT;
 	
-	Vector2 moveDir = playerPos - pos;
+	Vector2 moveDir = playerPos - Vector2{hitBox.x, hitBox.y};
 	moveDir = Vector2Normalize(moveDir);
 	// Multiply speed corresponding to direction
-	pos.x += moveDir.x * speed * dt; 
-	pos.y += moveDir.y * speed * dt;
+	hitBox.x += moveDir.x * speed * dt; 
+	hitBox.y += moveDir.y * speed * dt;
 
 }
 
@@ -83,7 +88,7 @@ void Enemy::Attack(float dt)
 		// Initiate attack, and keep attacking for "attackFor" var
 		attacking = true;
 		int dirInt = ((dir == Direction::LEFT) ? -1 : 1);
-		attackBox = { pos.x + (attackOffset * dirInt), pos.y , attackBox.width, attackBox.height };
+		attackBox = { hitBox.x + (attackOffset * dirInt), hitBox.y , attackBox.width, attackBox.height };
 	}
 
 }
@@ -100,7 +105,7 @@ void Enemy::DamageRecoil()
 	static float animationTime = 0.3f;
 	if (animationTime >= 0.0f)
 	{
-		pos.x += speed;
+		hitBox.x += speed;
 	}
 	else
 	{

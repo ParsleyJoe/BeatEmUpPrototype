@@ -4,10 +4,6 @@
 #include <enemy.hpp>
 #include <player.hpp>
 
-
-// TODO: move collisions out of main
-void CheckCollisions(Enemy &enemy, Player &player);
-
 int main(void)
 {
 	Game game;
@@ -19,7 +15,6 @@ int main(void)
 		// Updating Entities
 		// -----------------
 		game.Update();
-//		CheckCollisions(enemy, player);
 
 		// ----------
 		// END UPDATE
