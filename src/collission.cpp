@@ -8,6 +8,7 @@ void CheckCollisions(Enemy &enemy, Player &player)
 	if (CheckCollisionRecs(enemy.attackBox, player.hitBox))
 	{
 		// enemy damage player
-		player.TakeDamage();
+		if (enemy.attacking)
+			player.TakeDamage();
 	}
 }

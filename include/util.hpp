@@ -1,7 +1,7 @@
 #pragma once
 
-enum class Direction {
-	LEFT, RIGHT
+enum Direction {
+	LEFT = -1, RIGHT = 1
 };
 
 struct Vector2;

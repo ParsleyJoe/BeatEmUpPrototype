@@ -8,3 +8,10 @@
 ## Enemy 
  - [X] Add sprites
  - [ ] Attack less often
+ - [ ] Got hit animation
+
+
+## Others
+
+ - [ ] Add a environment 
+ - [ ] Sounds

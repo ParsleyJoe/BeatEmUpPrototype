@@ -1,3 +1,4 @@
+#include <iostream>
 #include <animation.hpp>
 #include <raylib.h>
 
@@ -24,6 +25,17 @@ void AnimationUpdate(Animation *self)
 		}
 	}
 
+}
+
+bool IsCurFrameAction(Animation* self)
+{
+	if (self->actionFrame == -1)
+	{
+		std::cout << "actionFrame Not Specified, Not a action Animation" << std::endl;
+		return false;
+	}
+
+	return (self->actionFrame == self->cur);
 }
 
 Rectangle AnimationFrame(Animation *self, int numFramesPerRow)

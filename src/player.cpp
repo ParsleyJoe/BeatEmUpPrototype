@@ -8,7 +8,7 @@
 
 Player::Player()
 	: pos(Vector2{ 100, 300 }), speed(200), attackOffset(13),
-	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}), hitBox({300, 300, 120, 120}),
+	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}), hitBox({300, 300, 30, 30}),
 	state(PlayerState::MOVING)
 {
 	attackAnim = {1, 3, 0, 0.07f, 0.0f, ONESHOT};
@@ -43,10 +43,9 @@ void Player::Update(float dt)
 
 void Player::Draw() const
 {
-	int dirInt = (dir == Direction::LEFT) ? -1 : 1;
 	if (!attacking)
 	{
-		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width * dirInt, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
+		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width * dir, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
 	}
 	else
 	{
@@ -54,7 +53,7 @@ void Player::Draw() const
 		Rectangle frame = AnimationFrame((Animation*)&attackAnim, attackAnim.last);
 
 		// Base it on direction
-		frame.width *= dirInt;
+		frame.width *= dir;
 		DrawTexturePro(playerAttackSheet, frame, hitBox, {0}, 0.0f, WHITE);
 	}
 	
@@ -132,7 +131,7 @@ void Player::Attack(float dt)
 	else if (!attacking)// NOTE: GETTING RID OF COOLDOWN FIXED LAGGY ATTACK && (GetTime() - lastAttacked) > attackCooldown) 
 	{ 
 		attacking = true;
-		attackBox = { pos.x + 30 + attackOffset, pos.y + 15 , attackBox.width, attackBox.height};
+		attackBox = { pos.x + 30 * dir + attackOffset, pos.y + 15 , attackBox.width, attackBox.height};
 	}
 }
 
