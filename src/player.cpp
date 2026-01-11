@@ -8,8 +8,8 @@
 
 Player::Player()
 	: pos(Vector2{ 100, 300 }), speed(200), attackOffset(13),
-	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}), hitBox({300, 300, 30, 30}),
-	state(PlayerState::MOVING)
+	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}),
+	hitBox({300, 300, 50, 50}), state(PlayerState::MOVING)
 {
 	attackAnim = {1, 3, 0, 0.07f, 0.0f, ONESHOT};
 }
@@ -131,7 +131,10 @@ void Player::Attack(float dt)
 	else if (!attacking)// NOTE: GETTING RID OF COOLDOWN FIXED LAGGY ATTACK && (GetTime() - lastAttacked) > attackCooldown) 
 	{ 
 		attacking = true;
-		attackBox = { pos.x + 30 * dir + attackOffset, pos.y + 15 , attackBox.width, attackBox.height};
+
+		// Start the attack from center of player
+		Vector2 attackOrigin = { (hitBox.x + (hitBox.width / 2)), (hitBox.y + (hitBox.height / 2))};
+		attackBox = { attackOrigin.x + (dir * attackOffset), attackOrigin.y , attackBox.width, attackBox.height};
 	}
 }
 

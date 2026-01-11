@@ -35,7 +35,8 @@ private:
 public:
 	bool attacking = false;
 	Rectangle attackBox;
-	Rectangle hitBox; // TODO:  ADD HITBOX
+	Rectangle hitBox;
+	int damage = 5;
 
 	Player();
 	void LoadTextures();

@@ -10,6 +10,7 @@ private:
 	ImGuiIO* io = nullptr;
 	Player player;
 	Enemy enemy;
+	Texture2D background;
 	
 public:
 

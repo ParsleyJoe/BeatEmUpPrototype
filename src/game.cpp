@@ -10,6 +10,7 @@
 
 void Game::Start()
 {
+	background = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/background.png");
 	player.LoadTextures();
 	enemy.LoadTextures();
 }
@@ -27,6 +28,7 @@ void Game::Update()
 void Game::Draw()
 {
 	ClearBackground(RAYWHITE);
+	DrawTexture(background, 0, 0, WHITE);
 
 	enemy.Draw();
 	player.Draw();
@@ -39,13 +41,8 @@ void Game::Init()
 
 	rlImGuiSetup(true);
 
-	//you can use whatever imgui theme you like!
-	//ImGui::StyleColorsDark();
-	//imguiThemes::yellow();
-	//imguiThemes::gray();
-	imguiThemes::green();
-	//imguiThemes::red();
-	//imguiThemes::embraceTheDarkness();
+	ImGui::StyleColorsDark();
+	imguiThemes::embraceTheDarkness();
 
 	io = &ImGui::GetIO();
 	io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls

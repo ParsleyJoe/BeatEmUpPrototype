@@ -7,7 +7,7 @@
 
 ## Enemy 
  - [X] Add sprites
- - [ ] Attack less often
+ - [X] Attack less often
  - [ ] Got hit animation
 
 

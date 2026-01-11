@@ -9,32 +9,39 @@
 void Enemy::LoadTextures()
 {
 	idleTexture = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/enemy.png");
-	attackText = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/enemyAttack.png");
+	attackTexture = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/enemyAttack.png");
 	attackAnim = { .first = 0,
 		.last = 2, .cur = 0, .speed = 0.7f, .durationLeft = 0.0f,
 		.type = ONESHOT, .action = ATTACK, .actionFrame = 2};
+
+	hitTexture = LoadTexture("E:/RonitCodeStuff/GameDev/BeatEmUpPrototype/art/sprites/enemyHit.png");
 }
 
 // Draw the enemy
 void Enemy::Draw() 
 {
+	// Cannot declare variables inside switch
 	Rectangle frame;
+
 	switch (state) 
 	{
 	case EnemyState::MOVING:
 		DrawTexturePro(idleTexture, {0.0f, 0.0f, static_cast<float>(idleTexture.width), static_cast<float>(idleTexture.height)}, hitBox, {0}, 0.0f, WHITE);
 		break;
+
 	case EnemyState::ATTACK:
 		frame = AnimationFrame(&attackAnim, 3);
 		frame.width *= dir;
-		DrawTexturePro(attackText, frame, hitBox, {0.0f}, 0.0f, WHITE);
+		DrawTexturePro(attackTexture, frame, hitBox, {0.0f}, 0.0f, WHITE);
 		break;
 	case EnemyState::HIT:
+		Rectangle source =  {0.0f, 0.0f, static_cast<float>(hitTexture.width), static_cast<float>(hitTexture.height)};
+		DrawTexturePro(hitTexture, source, hitBox, {0}, 0.0f, WHITE);
 		std::cout << "(DrawingFunction)Enemy got hit" << std::endl;
 		break;
 	}
 	
-	DrawRectangleLines(hitBox.x, hitBox.y, 30, 30, RED);
+	DrawRectangleLines(hitBox.x, hitBox.y, hitBox.width, hitBox.height, RED);
 	
 	ImGui::Checkbox("Activate Enemy", &active);
 }
@@ -121,22 +128,30 @@ void Enemy::ResetAttackLogic()
 	state = EnemyState::MOVING;
 }
 
+void Enemy::TakeDamage(int damage)
+{
+	health -= damage;
+	DamageRecoil();
+}
+
 // Damaged Animation
 void Enemy::DamageRecoil()
 {
-	if (state == EnemyState::MOVING)
+	if (state != EnemyState::HIT)
 	{
 		state = EnemyState::HIT;
 	}
 
-
+	float dt = GetFrameTime();
 	static float animationTime = 0.3f;
 	if (animationTime >= 0.0f)
 	{
-		hitBox.x += speed;
+		hitBox.x -= speed * dir * dt;
+		animationTime -= dt;
 	}
 	else
 	{
+		// States will be handled once it is set back to moving
 		state = EnemyState::MOVING;
 		animationTime = 0.3f;
 	}

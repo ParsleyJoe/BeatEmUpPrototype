@@ -1,10 +1,10 @@
 #include "raylib.h"
 
-#include <game.hpp>
 #include <enemy.hpp>
+#include <game.hpp>
 #include <player.hpp>
 
-int main(void)
+int main() 
 {
 	Game game;
 	game.Init();
@@ -18,22 +18,20 @@ int main(void)
 		// ----------
 		// END UPDATE
 
-		// DRAWING FUNCTIONS 
+		// DRAWING FUNCTIONS
 		// -----------------
 		BeginDrawing();
 		game.ImGuiDrawBegin();
 
 		game.Draw();
+
 		game.ImGuiDrawEnd();
 
 		EndDrawing();
-
 		// -----------
 		// END DRAWING
 	}
 
 	game.Shutdown();
-
 	return 0;
 }
-
