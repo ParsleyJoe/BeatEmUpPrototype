@@ -1,5 +1,5 @@
+//#include "raymath.h"
 #include <game.hpp>
-#include <raylib.h>
 
 // ImGui
 #include <imgui.h>
@@ -32,6 +32,9 @@ void Game::Draw()
 
 	enemy.Draw();
 	player.Draw();
+
+	float dist = Vector2Distance(player.GetPosition(), {enemy.hitBox.x, enemy.hitBox.y});
+	ImGui::Text("Dist: %f", dist);
 }
 
 void Game::Init()

@@ -12,7 +12,6 @@ enum class PlayerState {
 class Player
 {
 private:
-	Vector2 pos;
 	int speed;
 
 	int attackOffset;
@@ -31,7 +30,7 @@ private:
 	Animation attackAnim;
 
 	PlayerState state;
-	Direction dir;
+	Direction dir = Direction::RIGHT;
 public:
 	bool attacking = false;
 	Rectangle attackBox;

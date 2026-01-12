@@ -38,6 +38,7 @@ public:
 	float attackTimer = 0.0f;
 	float attackFor = 0.1f;
 	float attackingTimer = 0.0f;
+	float attackRange = 30.0f;
 
 	void LoadTextures();
 

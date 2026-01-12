@@ -44,6 +44,7 @@ void Enemy::Draw()
 	DrawRectangleLines(hitBox.x, hitBox.y, hitBox.width, hitBox.height, RED);
 	
 	ImGui::Checkbox("Activate Enemy", &active);
+
 }
 
 // Handles the Actual AI of the enemy
@@ -55,18 +56,23 @@ void Enemy::Update(float dt, Player& player)
 	switch (state)
 	{
 	case EnemyState::MOVING:
-		if (dist < 60.0f) { state = EnemyState::ATTACK; break; }
+		if (dist < attackRange)
+		{ 
+			state = EnemyState::ATTACK;
+			std::cout << "STATE TO ATTACK" << std::endl;
+			break; 
+		}
 		Move(dt, player);
 		break;
 	case EnemyState::ATTACK:
 		AnimationUpdate(&attackAnim);
 		std::cout << attackAnim.cur << std::endl;
-		Attack(dt);
-
-		if (!attacking && dist > 60.0f) { 
+		if (!attacking && dist > attackRange) { 
 			ResetAttackLogic(); 
 			state = EnemyState::MOVING; 
+			break;
 		}
+		Attack(dt);
 		break;
 	case EnemyState::HIT:
 		DamageRecoil();
@@ -105,7 +111,7 @@ void Enemy::Attack(float dt)
 		if (GetTime() - attackFor >= attackingTimer)
 		{
 			ResetAttackLogic();
-			std::cout << "SET TO ZERO AAAAAAAAAAAAAAAAHHH!!" << std::endl;
+			return;
 		}
 	}
 

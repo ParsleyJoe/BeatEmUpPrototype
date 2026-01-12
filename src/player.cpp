@@ -7,8 +7,8 @@
 
 
 Player::Player()
-	: pos(Vector2{ 100, 300 }), speed(200), attackOffset(13),
-	attackCooldown(0.7f), lastAttacked(0), attackBox({0, 0, 10, 10}),
+	: speed(200), attackOffset(13), attackCooldown(0.7f),
+	lastAttacked(0), attackBox({0, 0, 10, 10}),
 	hitBox({300, 300, 50, 50}), state(PlayerState::MOVING)
 {
 	attackAnim = {1, 3, 0, 0.07f, 0.0f, ONESHOT};
@@ -43,11 +43,7 @@ void Player::Update(float dt)
 
 void Player::Draw() const
 {
-	if (!attacking)
-	{
-		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width * dir, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
-	}
-	else
+	if (attacking)
 	{
 		AnimationUpdate((Animation*)&attackAnim);
 		Rectangle frame = AnimationFrame((Animation*)&attackAnim, attackAnim.last);
@@ -56,9 +52,16 @@ void Player::Draw() const
 		frame.width *= dir;
 		DrawTexturePro(playerAttackSheet, frame, hitBox, {0}, 0.0f, WHITE);
 	}
+	else 
+	{
+		DrawTexturePro(playerIdleText, {0, 0, (float)playerIdleText.width * dir, (float)playerIdleText.height}, hitBox, {0, 0}, 0.0f, WHITE);
+	}
 	
 	// Debug Draw Player hitbox
 	DrawRectangleLines(hitBox.x, hitBox.y, hitBox.width, hitBox.height, BLUE);
+
+	// DEBUG PLAYER ATTACK
+	// -------------------
 	ImGui::SliderFloat("Player attackFor", (float*)&attackFor, 0.0f, 2.0f);
 	ImGui::Text("Player Attacking: %s", attacking ? "true" : "false");
 
@@ -66,6 +69,7 @@ void Player::Draw() const
 	ImGui::Text("Space Bar pressed: %s", space ? "true" : "false");
 	ImGui::SliderFloat("Attack Anim speed: ", (float*)&attackAnim.speed, 0.0f, 2.0f);
 	ImGui::SliderFloat("Attack Anim duration: ", (float*)&attackAnim.durationLeft, 0.0f, 2.0f);
+	// -------------------
 
 	DrawHealthBar();
 }
@@ -90,23 +94,22 @@ void Player::Move(float dt)
 {
 	if (IsKeyDown(KEY_LEFT))
 	{
-		pos.x -= speed * dt;
+		hitBox.x -= speed * dt;
 		dir = Direction::LEFT;
 	}
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		pos.x += speed * dt;
+		hitBox.x += speed * dt;
 		dir = Direction::RIGHT;
 	}
 	if (IsKeyDown(KEY_UP))
 	{
-		pos.y -= speed * dt;
+		hitBox.y -= speed * dt;
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
-		pos.y += speed * dt;
+		hitBox.y += speed * dt;
 	}
-	hitBox = {pos.x, pos.y, hitBox.width, hitBox.height};
 }
 
 void Player::Attack(float dt)
@@ -140,5 +143,5 @@ void Player::Attack(float dt)
 
 Vector2 Player::GetPosition() const
 {
-	return pos;
+	return {hitBox.x, hitBox.y};
 }

@@ -15,3 +15,17 @@
 
  - [ ] Add a environment 
  - [ ] Sounds
+
+
+## BUGS
+
+ - player texture not loaded on start
+ - enemy state doesn't reset when player goes out of range
+ - 
+
+## PROBLEMS WITH GAME RN [11/01/2026]
+ - Art sucks ass
+ - gameplay not super fun
+ - No dying and cant kill
+ - No blood
+ - Attacking is still kinda wonky
